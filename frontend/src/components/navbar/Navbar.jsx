@@ -31,7 +31,7 @@ export default function Navbar() {
 
         <div className="hidden md:flex flex-1 max-w-2xl border-2 border-blue-500 rounded overflow-hidden">
           <input
-            className="flex-1 px-4 py-2 outline-none"
+            className="flex-1 px-4 py-2 outline-none text-gray-600"
             placeholder="Search products"
           />
 

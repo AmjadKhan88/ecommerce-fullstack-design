@@ -4,7 +4,7 @@ export default function SupplierSection() {
   return (
     <div className="bg-gray-100 px-3 md:px-6 py-8">
       <div
-        className=" relative rounded-lg overflow-hidden h-auto flex flex-col md:flex-row  gap-6 p-6 "
+        className=" relative rounded-lg overflow-hidden h-auto flex flex-col md:flex-row  gap-6 p-3 md:p-6 "
         style={{
           backgroundImage:
             "linear-gradient(90deg,rgba(37,99,235,0.95) 0%,rgba(37,99,235,0.85) 40%,rgba(96,165,250,0.7) 65%,rgba(219,234,254,0.85) 100%), url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d')",
@@ -15,7 +15,7 @@ export default function SupplierSection() {
         {/* LEFT TEXT */}
 
         <div className="text-white max-w-[500px]">
-          <h2 className=" text-[28px] font-semibold leading-snug mb-4 ">
+          <h2 className="text-2xl sm:text-[28px] font-semibold leading-snug mb-4 ">
             An easy way to send<br/> requests to all suppliers
           </h2>
 
@@ -30,7 +30,7 @@ export default function SupplierSection() {
         {/* RIGHT FORM */}
 
         <div
-          className=" ml-auto bg-[#F7F9FB] p-6 rounded-lg shadow-md w-[420px] "
+          className="ml-auto bg-[#F7F9FB] p-2 md:p-6 rounded-lg shadow-md max-w-[420px] "
         >
           <h3
             className=" font-semibold text-[18px] mb-4 text-gray-800 "
@@ -55,7 +55,7 @@ export default function SupplierSection() {
             />
 
             <select
-              className=" w-[90px] bg-white border border-gray-200 rounded p-2 text-sm text-gray-500"
+              className=" w-[90px] sm:pr-2 bg-white border border-gray-200 rounded p-2 text-sm text-gray-500"
             >
               <option>Pcs</option>
             </select>

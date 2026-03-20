@@ -99,3 +99,66 @@ export const assets = {
       img: assets.lamp,
     },
   ];
+
+export const recommended_items_products = [
+  {
+    id: 1,
+    title: "T-shirts with multiple colors, for men",
+    price: "$10.30",
+    img: watch,
+  },
+  {
+    id: 2,
+    title: "Jeans shorts for men blue color",
+    price: "$10.30",
+    img: laptop,
+  },
+  {
+    id: 3,
+    title: "Brown winter coat medium size",
+    price: "$12.50",
+    img: camera,
+  },
+  {
+    id: 4,
+    title: "Jeans bag for travel for men",
+    price: "$34.00",
+    img: camera_2,
+  },
+  {
+    id: 5,
+    title: "Leather wallet",
+    price: "$99.00",
+    img: headphone,
+  },
+  {
+    id: 6,
+    title: "Canon camera black, 100x zoom",
+    price: "$9.99",
+    img: headphone_2,
+  },
+  {
+    id: 7,
+    title: "Headset for gaming with mic",
+    price: "$8.99",
+    img: sumsung_mobile,
+  },
+  {
+    id: 8,
+    title: "Smartwatch silver color modern",
+    price: "$10.30",
+    img: lamp_2,
+  },
+  {
+    id: 9,
+    title: "Blue wallet for men leather material",
+    price: "$10.30",
+    img: lamp,
+  },
+  {
+    id: 10,
+    title: "Jeans bag for travel for men",
+    price: "$80.95",
+    img: soft_chair,
+  },
+];

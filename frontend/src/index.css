@@ -64,3 +64,21 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #94a3b8; /* slate-400 */
 }
+
+.social{
+width:34px;
+height:34px;
+background:#e5e7eb;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#6b7280;
+cursor:pointer;
+transition:.3s;
+}
+
+.social:hover{
+background:#2563eb;
+color:white;
+}

@@ -11,6 +11,7 @@ import lamp_2 from "./lamp_2.png";
 import soft_chair from "./Soft_chairs.png";
 import soft_chair_2 from "./Soft_chairs_2.png";
 import outdoor_baner from "./outdoor_baner.png";
+import iphone_13 from "./iphone-13.png";
 
 
 export const assets = {
@@ -26,7 +27,8 @@ export const assets = {
     lamp_2,
     soft_chair,
     soft_chair_2,
-    outdoor_baner
+    outdoor_baner,
+    iphone_13,
 }
 
  export const deals_section_products = [
@@ -161,4 +163,65 @@ export const recommended_items_products = [
     price: "$80.95",
     img: soft_chair,
   },
+];
+
+export const dummey_products = [
+
+{
+id:1,
+title:"Canon Camera EOS 2000",
+price:998,
+oldPrice:1128,
+rating:4.5,
+orders:154,
+shipping:true,
+brand:"Canon",
+category:"electronics",
+description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+image:"https://m.media-amazon.com/images/I/71ZOtNdaZCL._AC_SL1500_.jpg"
+},
+
+{
+id:2,
+title:"Samsung Galaxy S22",
+price:799,
+oldPrice:899,
+rating:4.7,
+orders:210,
+shipping:true,
+brand:"Samsung",
+category:"smartphones",
+description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+image: assets.sumsung_mobile
+},
+
+{
+id:3,
+title:"iPhone 13",
+price:1099,
+oldPrice:1299,
+rating:4.8,
+orders:320,
+shipping:true,
+brand:"Apple",
+category:"smartphones",
+description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+image:iphone_13
+},
+
+{
+  id:4,
+  title:"Sony WH-1000XM4 Wireless Headphones",
+  price:349,
+  oldPrice:399,
+  rating:4.6,
+  orders:120,
+  shipping:true,
+  brand:"Sony",
+  category:"electronics",
+  description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+  image:"https://m.media-amazon.com/images/I/71o8Q5XJS5L._AC_SL1500_.jpg"
+}
+
+
 ];

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { Link, NavLink } from "react-router-dom";
 import {
   Search,
   User,
@@ -101,7 +101,7 @@ export default function Navbar() {
             All category
           </div>
 
-          <div className="cursor-pointer hover:text-blue-600">Hot offers</div>
+          <NavLink to={'/shop'} className="cursor-pointer hover:text-blue-600"> Hot offers</NavLink>
 
           <div className="cursor-pointer hover:text-blue-600">Gift boxes</div>
 

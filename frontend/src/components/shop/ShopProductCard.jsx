@@ -1,7 +1,10 @@
 import { Heart } from 'lucide-react'
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
+import Spiner from '../ui/Spiner';
 
 export default function ShopProductCard({product}) {
+  const navigate = useNavigate();
   return (
      <div className="shadow bg-white rounded-md p-5 flex gap-6 hover:shadow-md transition">
 
@@ -59,7 +62,7 @@ export default function ShopProductCard({product}) {
                 {product.description}
               </p>
 
-              <button className="text-blue-600 text-sm font-medium">
+              <button onClick={()=> navigate(`/home/shop/product-details/${product.id}`)} className="text-blue-600 text-sm font-medium">
                 View details
               </button>
 
@@ -80,5 +83,5 @@ export default function ShopProductCard({product}) {
 
 
           </div>
-  )
+  );
 }

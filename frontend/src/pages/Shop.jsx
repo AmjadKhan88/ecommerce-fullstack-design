@@ -3,6 +3,7 @@ import ShopTopBar from "../components/shop/ShopTopBar";
 import FilterSidebar from "../components/shop/FilterSidebar";
 import ShopProductCard from "../components/shop/ShopProductCard";
 import {dummey_products} from "../assets/assets";
+import Pagination from "../components/shop/Pagination";
 
 export default function Shop() {
   return (
@@ -36,6 +37,7 @@ export default function Shop() {
             <ShopProductCard key={product.id} product={product} />
           ))}
 
+          <Pagination />
 
         </div>
 

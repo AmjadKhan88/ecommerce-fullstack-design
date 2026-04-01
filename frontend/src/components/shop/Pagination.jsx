@@ -1,21 +1,26 @@
-export default function Pagination({ total, perPage, page, setPage }) {
-  let pages = Math.ceil(total / perPage);
-
-  return (
-    <div className="flex gap-2 justify-center mt-8">
-      {[...Array(pages)].map((_, i) => (
-        <button
-          key={i}
-          onClick={() => setPage(i + 1)}
-          className={`px-3 py-1 border rounded
-
-${page == i + 1 && "bg-blue-600 text-white"}
-
-`}
-        >
-          {i + 1}
-        </button>
-      ))}
-    </div>
-  );
-}
+export default function Pagination() {
+    return (
+        <div className="flex items-center justify-end gap-2 md:mr-4">
+            <button type="button" aria-label="Previous" className="mr-4">
+                <svg width="9" height="16" viewBox="0 0 12 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 1L2 9.24242L11 17" stroke="#111820" strokeOpacity="0.7" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+            </button>
+        
+            <div className="flex gap-2 text-gray-500 text-sm md:text-base ">
+                <button type="button" className="flex items-center justify-center active:scale-95 w-9  h-9  aspect-square bg-white border border-gray-200 rounded-md hover:bg-gray-100/70 transition-all">1</button>
+                <button type="button" className="flex items-center justify-center active:scale-95 w-9  h-9  aspect-square bg-indigo-500 text-white rounded-md transition-all">2</button>
+                <button type="button" className="flex items-center justify-center active:scale-95 w-9  h-9  aspect-square bg-white border border-gray-200 rounded-md hover:bg-gray-100/70 transition-all">3</button>
+                <button type="button" className="flex items-center justify-center active:scale-95 w-9  h-9  aspect-square bg-white border border-gray-200 rounded-md hover:bg-gray-100/70 transition-all">4</button>
+                <button type="button" className="flex items-center justify-center active:scale-95 w-9  h-9  aspect-square bg-white border border-gray-200 rounded-md hover:bg-gray-100/70 transition-all">5</button>
+                <button type="button" className="flex items-center justify-center active:scale-95 w-9  h-9  aspect-square bg-white border border-gray-200 rounded-md hover:bg-gray-100/70 transition-all">6</button>
+            </div>
+        
+            <button type="button" aria-label="Next" className="ml-4">
+                <svg width="9" height="16" viewBox="0 0 12 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L10 9.24242L1 17" stroke="#111820" strokeOpacity="0.7" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+            </button>
+        </div>
+    );
+};

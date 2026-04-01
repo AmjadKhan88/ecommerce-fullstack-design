@@ -12,6 +12,7 @@ import soft_chair from "./Soft_chairs.png";
 import soft_chair_2 from "./Soft_chairs_2.png";
 import outdoor_baner from "./outdoor_baner.png";
 import iphone_13 from "./iphone-13.png";
+import { memo } from "react";
 
 
 export const assets = {
@@ -191,8 +192,9 @@ orders:210,
 shipping:true,
 brand:"Samsung",
 category:"smartphones",
-description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
-image: assets.sumsung_mobile
+memory:"128GB",
+description:"Samsung Galaxy S22 is a flagship smartphone that offers a powerful performance, stunning display, and advanced camera features. With its sleek design and cutting-edge technology, the Galaxy S22 is perfect for users who want a premium mobile experience. It features a high-resolution AMOLED display, a versatile camera system for capturing stunning photos and videos, and a long-lasting battery to keep you connected throughout the day.",
+image: assets.sumsung_mobile,
 },
 
 {
@@ -221,7 +223,36 @@ image:iphone_13
   category:"electronics",
   description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
   image:"https://m.media-amazon.com/images/I/71o8Q5XJS5L._AC_SL1500_.jpg"
-}
+},
+
+{
+  id:5,
+  title:"Dell XPS 13 Laptop",
+  price:999,
+  oldPrice:1199,
+  rating:4.9,
+  orders:250,
+  shipping:true,
+  brand:"Dell",
+  category:"electronics",
+  description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+  image: assets.laptop
+},
+
+{
+  id:6,
+  title:"Fitbit Charge 5",
+  price:149,
+  oldPrice:179,
+  rating:4.4,
+  orders:80,
+  shipping:true,
+  brand:"Fitbit",
+  category:"fitness",
+  description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+  image:"https://m.media-amazon.com/images/I/71smqRr0pmL._AC_SL1500_.jpg"
+},
+
 
 
 ];

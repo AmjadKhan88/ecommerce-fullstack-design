@@ -8,24 +8,24 @@ export default function ShopFeatureFilter() {
             </h3>
             <div className="space-y-2">
 
-                <label className="flex gap-2 text-gray-600 text-lg items-center">
+                <label className="flex gap-2 text-gray-600  items-center">
                   <input type="checkbox" className='w-4 h-4'/>
                     Free shipping
                 </label>
 
-                <label className="flex gap-2 text-gray-600 text-lg items-center">
+                <label className="flex gap-2 text-gray-600  items-center">
                   <input type="checkbox" className='w-4 h-4'/>
                     On sale
                 </label>
-                <label className="flex gap-2 text-gray-600 text-lg items-center">
+                <label className="flex gap-2 text-gray-600  items-center">
                   <input type="checkbox" className='w-4 h-4'/>
                     New arrival
                 </label>
-                <label className="flex gap-2 text-gray-600 text-lg items-center">
+                <label className="flex gap-2 text-gray-600  items-center">
                   <input type="checkbox" className='w-4 h-4'/>
                     Best seller
                 </label>
-                <label className="flex gap-2 text-gray-600 text-lg items-center">
+                <label className="flex gap-2 text-gray-600  items-center">
                   <input type="checkbox" className='w-4 h-4'/>
                     Verified only
                 </label>

@@ -7,7 +7,7 @@ export default function ShopCategoryFilter() {
                     Category
                   </h3>
       
-                  <div className="space-y-2 text-gray-600 text-lg">
+                  <div className="space-y-2 text-gray-600 ">
       
                     <p className=" text-sky-500">
                       Mobile accessory

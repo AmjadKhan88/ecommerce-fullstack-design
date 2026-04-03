@@ -102,13 +102,13 @@ export default function Navbar() {
             All category
           </div>
 
-          <NavLink to={'/shop'} className="cursor-pointer hover:text-blue-600"> Hot offers</NavLink>
+          <NavLink to={'/'} className={({isActive})=> (`${isActive ? 'text-blue-600' : ''} cursor-pointer hover:text-blue-600`)}> Home</NavLink>
 
-          <div className="cursor-pointer hover:text-blue-600">Gift boxes</div>
+          <NavLink to={'/shop'} className={({isActive})=> (`${isActive ? 'text-blue-600' : ''} cursor-pointer hover:text-blue-600`)}>Shop</NavLink>
 
-          <div className="cursor-pointer hover:text-blue-600">Projects</div>
+          <NavLink to={'/projects'} className={({isActive})=> (`${isActive ? 'text-blue-600' : ''} cursor-pointer hover:text-blue-600`)}>Projects</NavLink>
 
-          <div className="cursor-pointer hover:text-blue-600">Menu item</div>
+          <NavLink to={'/services'} className={({isActive})=> (`${isActive ? 'text-blue-600' : ''} cursor-pointer hover:text-blue-600`)}>Services</NavLink>
 
           <div className="flex items-center gap-1 cursor-pointer">
             Help

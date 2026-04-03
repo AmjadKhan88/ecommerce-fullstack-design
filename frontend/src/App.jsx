@@ -3,6 +3,7 @@ import Layout from './layout/Layout'
 import Home from './pages/Home'
 import Shop from './pages/Shop'
 import ProductDetailsSection from './pages/ProductDetailsSection'
+import CartPage from './pages/CartPage'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='shop' element={<Shop />} />
           <Route path='home/shop/product-details/:id' element={<ProductDetailsSection/>} />
+          <Route path='cart' element={<CartPage/>} />
         </Route>
       </Routes>
     </div>

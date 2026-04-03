@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   Search,
   User,
@@ -14,6 +14,7 @@ import CountryDropdown from "../ui/CountryDropdown";
 
 export default function Navbar() {
   const [mobileMenu, setMobileMenu] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="w-full border-b bg-white border-gray-300">
@@ -68,7 +69,7 @@ export default function Navbar() {
               <p className="text-xs text-slate-500 mt-1">Orders</p>
             </div>
 
-            <div className="text-center flex flex-col items-center justify-center cursor-pointer hover:text-blue-600">
+            <div onClick={()=> navigate("/cart")} className="text-center flex flex-col items-center justify-center cursor-pointer hover:text-blue-600">
               <ShoppingCart className="text-slate-500" size={22} />
 
               <p className="text-xs text-slate-500 mt-1">Cart</p>

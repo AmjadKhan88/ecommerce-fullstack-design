@@ -1,61 +1,76 @@
 import User from "../models/user.model.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 
 // GENERATE TOKEN
-const generateToken = (id)=>{
-
+const generateToken = (id) => {
     return jwt.sign(
-        {id},
+        { id },
         process.env.JWT_SECRET,
-        {expiresIn:"30d"}
+        { expiresIn: "30d" }
     );
-
 };
+
+// Validation checker
+const validateRequired = (fields) => {
+    const errors = {};
+    for (const key in fields) {
+        if (!fields[key]) {
+            errors[key] = `${key} is required`;
+        }
+    }
+
+    return errors;
+
+}
 
 
 
 // REGISTER USER
-export const registerUser = async (req,res)=>{
+export const registerUser = async (req, res) => {
 
-    try{
+    try {
 
-        const {name,email,password} = req.body;
+        const { name, email, password } = req.body;
 
-        const userExist = await User.findOne({email});
+        if (!user || !email || !password) {
+            return res.status(400).json({ success: false, message: 'All fields are required', errors: { name: name ? '' : 'Name is required', email: email ? '' : 'Email is required', password: password ? '' : 'password is required' } })
+        }
 
-        if(userExist){
+        const userExist = await User.findOne({ email });
+
+        if (userExist) {
             return res.status(400).json({
-                message:"User already exists"
+                message: "User already exists"
             });
         }
 
-        const hashedPassword = await bcrypt.hash(password,10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const user = await User.create({
 
             name,
             email,
-            password:hashedPassword
+            password: hashedPassword
 
         });
 
         res.status(201).json({
 
-            _id:user._id,
-            name:user.name,
-            email:user.email,
-            role:user.role,
-            token:generateToken(user._id)
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            token: generateToken(user._id)
 
         });
 
     }
-    catch(error){
+    catch (error) {
 
         res.status(500).json({
-            message:error.message
+            message: error.message
         });
 
     }
@@ -65,43 +80,43 @@ export const registerUser = async (req,res)=>{
 
 
 // LOGIN USER
-export const loginUser = async (req,res)=>{
+export const loginUser = async (req, res) => {
 
-    try{
+    try {
 
-        const {email,password} = req.body;
+        const { email, password } = req.body;
 
-        const user = await User.findOne({email});
+        const user = await User.findOne({ email });
 
-        if(!user){
+        if (!user) {
             return res.status(401).json({
-                message:"Invalid email or password"
+                message: "Invalid email or password"
             });
         }
 
-        const match = await bcrypt.compare(password,user.password);
+        const match = await bcrypt.compare(password, user.password);
 
-        if(!match){
+        if (!match) {
             return res.status(401).json({
-                message:"Invalid email or password"
+                message: "Invalid email or password"
             });
         }
 
         res.json({
 
-            _id:user._id,
-            name:user.name,
-            email:user.email,
-            role:user.role,
-            token:generateToken(user._id)
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            token: generateToken(user._id)
 
         });
 
     }
-    catch(error){
+    catch (error) {
 
         res.status(500).json({
-            message:error.message
+            message: error.message
         });
 
     }
@@ -111,29 +126,29 @@ export const loginUser = async (req,res)=>{
 
 
 // GET USER PROFILE
-export const getUserProfile = async (req,res)=>{
+export const getUserProfile = async (req, res) => {
 
-    try{
+    try {
 
         const user = await User
-        .findById(req.user.id)
-        .select("-password")
-        .populate("wishlist")
-        .populate("cart.product");
+            .findById(req.user.id)
+            .select("-password")
+            .populate("wishlist")
+            .populate("cart.product");
 
-        if(!user){
+        if (!user) {
             return res.status(404).json({
-                message:"User not found"
+                message: "User not found"
             });
         }
 
         res.json(user);
 
     }
-    catch(error){
+    catch (error) {
 
         res.status(500).json({
-            message:error.message
+            message: error.message
         });
 
     }
@@ -143,15 +158,15 @@ export const getUserProfile = async (req,res)=>{
 
 
 // UPDATE USER PROFILE
-export const updateUserProfile = async (req,res)=>{
+export const updateUserProfile = async (req, res) => {
 
-    try{
+    try {
 
         const user = await User.findById(req.user.id);
 
-        if(!user){
+        if (!user) {
             return res.status(404).json({
-                message:"User not found"
+                message: "User not found"
             });
         }
 
@@ -159,9 +174,9 @@ export const updateUserProfile = async (req,res)=>{
         user.email = req.body.email || user.email;
         user.image = req.body.image || user.image;
 
-        if(req.body.password){
+        if (req.body.password) {
 
-            user.password = await bcrypt.hash(req.body.password,10);
+            user.password = await bcrypt.hash(req.body.password, 10);
 
         }
 
@@ -169,19 +184,19 @@ export const updateUserProfile = async (req,res)=>{
 
         res.json({
 
-            _id:updatedUser._id,
-            name:updatedUser.name,
-            email:updatedUser.email,
-            role:updatedUser.role,
-            token:generateToken(updatedUser._id)
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            role: updatedUser.role,
+            token: generateToken(updatedUser._id)
 
         });
 
     }
-    catch(error){
+    catch (error) {
 
         res.status(500).json({
-            message:error.message
+            message: error.message
         });
 
     }
@@ -191,22 +206,22 @@ export const updateUserProfile = async (req,res)=>{
 
 
 // GET ALL USERS (ADMIN)
-export const getUsers = async (req,res)=>{
+export const getUsers = async (req, res) => {
 
-    try{
+    try {
 
         const users = await User
-        .find()
-        .select("-password")
-        .sort({createdAt:-1});
+            .find()
+            .select("-password")
+            .sort({ createdAt: -1 });
 
         res.json(users);
 
     }
-    catch(error){
+    catch (error) {
 
         res.status(500).json({
-            message:error.message
+            message: error.message
         });
 
     }
@@ -216,29 +231,29 @@ export const getUsers = async (req,res)=>{
 
 
 // DELETE USER
-export const deleteUser = async (req,res)=>{
+export const deleteUser = async (req, res) => {
 
-    try{
+    try {
 
         const user = await User.findById(req.params.id);
 
-        if(!user){
+        if (!user) {
             return res.status(404).json({
-                message:"User not found"
+                message: "User not found"
             });
         }
 
         await user.deleteOne();
 
         res.json({
-            message:"User removed"
+            message: "User removed"
         });
 
     }
-    catch(error){
+    catch (error) {
 
         res.status(500).json({
-            message:error.message
+            message: error.message
         });
 
     }

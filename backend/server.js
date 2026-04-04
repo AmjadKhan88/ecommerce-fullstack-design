@@ -1,7 +1,7 @@
 import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
-import connectDB from './config/db.js';
+import connectDB from './configs/db.js';
 import productRouter from './routes/product.route.js';
 import userRouter from './routes/user.routes.js';
 import orderRouter from './routes/order.route.js';
@@ -11,7 +11,7 @@ const app = express();
 const port = process.env.PORT || 4000;
 
 // Connect to Database
-connectDB();
+await connectDB();
 
 app.use(cors());
 app.use(express.json());

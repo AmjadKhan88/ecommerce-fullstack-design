@@ -14,7 +14,11 @@ import outdoor_baner from "./outdoor_baner.png";
 import iphone_13 from "./iphone-13.png";
 
 
+// icons
+import google from "./icons/google.png"
 
+
+// assets image
 export const assets = {
   robot_orking,
   watch,
@@ -30,6 +34,11 @@ export const assets = {
   soft_chair_2,
   outdoor_baner,
   iphone_13,
+}
+
+// icons image
+export const icons = {
+  google,
 }
 
 export const deals_section_products = [

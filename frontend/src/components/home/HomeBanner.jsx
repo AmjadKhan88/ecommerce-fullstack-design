@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import { assets } from "../../assets/assets";
 
 export default function HomeBanner() {
+  const navigate = useNavigate();
   const categories = [
     "Automobiles",
     "Clothes and wear",
@@ -12,7 +14,6 @@ export default function HomeBanner() {
     "Machinery tools",
     "More category",
   ];
-
   return (
     <div className="bg-gray-100 p-6">
       <div className="bg-white rounded-lg shadow-sm p-4">
@@ -96,11 +97,11 @@ export default function HomeBanner() {
 
               </div>
 
-              <button className="w-full bg-blue-600 text-white py-2 rounded mb-2 text-sm">
+              <button onClick={()=> navigate("/auth/register")} className="w-full bg-blue-600 text-white py-2 rounded mb-2 text-sm">
                 Join now
               </button>
 
-              <button className="w-full bg-gray-200 py-2 rounded text-sm">
+              <button onClick={()=> navigate("/auth/login")} className="w-full bg-gray-200 py-2 rounded text-sm">
                 Log in
               </button>
 

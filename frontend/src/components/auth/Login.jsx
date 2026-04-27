@@ -3,15 +3,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { icons } from "../../assets/assets";
 import { toast } from "react-toastify";
-import {useAuth} from "../../context/AuthContext"
+import { useAuth } from "../../context/AuthContext"
 import Span from '../../components/ui/Spiner'
 
 export default function Login() {
-    const {type} = useParams();
+    const { type } = useParams();
     const navigate = useNavigate();
-    const [state, setState] = useState(type === "login" ? 'Login':'Sign Up');
+    const [state, setState] = useState(type === "login" ? 'Login' : 'Sign Up');
+    const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const { api , setUser } = useAuth();
+    const { api, setUser } = useAuth();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -31,18 +32,20 @@ export default function Login() {
 
         try {
             const path = state === "Login" ? '/api/user/login' : '/api/user/register'
-            const {data} = await api.post(path,formData);
-            if(data.success){
-                localStorage.setItem("token",data.token);
+            const { data } = await api.post(path, formData);
+            if (data.success) {
+                setErrors({});
+                localStorage.setItem("token", data.token);
                 setUser(data.user);
                 navigate("/");
             }
+            setErrors({});
         } catch (error) {
+            setErrors(error?.response?.data?.errors || {})
             toast.error(error?.response?.data?.message || error.message)
         } finally {
             setLoading(false)
         }
-       
 
     }
 
@@ -117,48 +120,53 @@ export default function Login() {
                     </p>
 
                     <form onSubmit={submitHandler} className="space-y-5">
+                        <div>
+                            {
+                                state === "Sign Up"
+                                &&
+                                <>
+                                    <input
+                                        name="name"
+                                        onChange={handleChange}
+                                        value={formData.name}
+                                        className={`w-full  border-b border-gray-300 ${errors.name && 'border-red-400'} p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                        type="text"
+                                        placeholder="Full Name"
+                                    />
+                                    {errors.name && <p className="text-xs text-red-400">{errors.name}</p>}
+                                </>
 
-                        {
-                            state === "Sign Up"
-                            &&
+                            }
+                        </div>
 
+                        <div>
                             <input
-                                name="name"
+                                name="email"
                                 onChange={handleChange}
-                                value={formData.name}
-                                className="w-full  border-b border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                type="text"
-                                placeholder="Full Name"
-                                required
+                                value={formData.email}
+                                className={`w-full border-b border-gray-300 ${errors.email && 'border-red-400'} p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                type="email"
+                                placeholder="Email"
                             />
+                            {errors.email && <p className="text-xs text-red-400">{errors.email}</p>}
+                        </div>
 
-                        }
-
-                        <input
-                            name="email"
-                            onChange={handleChange}
-                            value={formData.email}
-                            className="w-full border-b border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            type="email"
-                            placeholder="Email"
-                            required
-                        />
-
-
+                        <div>
                         <input
                             name="password"
                             onChange={handleChange}
                             value={formData.password}
-                            className="w-full border-b border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className={`w-full border-b border-gray-300 ${errors.password && 'border-red-400'} p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                             type="password"
                             placeholder="Password"
-                            required
                         />
+                        {errors.password && <p className="text-xs text-red-400">{errors.password}</p>}
+                        </div>
 
 
                         <button disabled={loading} className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition">
 
-                            {loading ? <Span/> : state}
+                            {loading ? <Span /> : state}
 
                         </button>
 
@@ -232,7 +240,7 @@ export default function Login() {
 
                         <button disabled={loading} className="w-full flex items-center justify-center gap-2 border border-gray-300 p-3 rounded-lg hover:bg-gray-100 transition">
 
-                           <img src={icons.google} className="w-6"/> Continue with Google
+                            <img src={icons.google} className="w-6" /> Continue with Google
 
                         </button>
 

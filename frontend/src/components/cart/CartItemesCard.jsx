@@ -1,9 +1,26 @@
+
 import { ChevronDown } from 'lucide-react'
 import React from 'react'
+import { useAuth } from '../../context/AuthContext';
+import { toast } from 'react-toastify';
 
 export default function CartItemesCard({item}) {
+  const { removeFromCart } = useAuth();
+
+  const product = item.product || item;
+  const quantity = item.quantity || item.qty || 1;
+
+  const handleRemove = async () => {
+    const id = product._id || product.id || product;
+    try {
+      await removeFromCart(id);
+    } catch (error) {
+      toast.error('Failed to remove');
+    }
+  };
+
   return (
-    <div key={item.id}>
+    <div key={product._id || product.id}>
 
                 <div className="flex gap-4">
 
@@ -11,8 +28,9 @@ export default function CartItemesCard({item}) {
                   <div className="w-[80px] h-[80px] shadow-sm rounded-lg flex items-center justify-center bg-gray-50">
 
                     <img
-                      src={item.img}
+                      src={product.image || product.images?.[0] || product.img}
                       className="w-[55px]"
+                      alt={product.title}
                     />
 
                   </div>
@@ -24,11 +42,11 @@ export default function CartItemesCard({item}) {
                     <div className="flex justify-between">
 
                       <h3 className="font-medium text-gray-800">
-                        {item.title}
+                        {product.title}
                       </h3>
 
                       <p className="font-semibold">
-                        ${item.price}
+                        ${product.price || product.price?.toFixed ? product.price.toFixed(2) : product.price}
                       </p>
 
                     </div>
@@ -46,7 +64,7 @@ export default function CartItemesCard({item}) {
 
                       <div className="flex gap-3">
 
-                        <button className="text-red-500 shadow-sm border border-gray-200 px-2 sm:px-3 py-1 rounded text-sm">
+                        <button onClick={handleRemove} className="text-red-500 shadow-sm border border-gray-200 px-2 sm:px-3 py-1 rounded text-sm">
                           Remove
                         </button>
 

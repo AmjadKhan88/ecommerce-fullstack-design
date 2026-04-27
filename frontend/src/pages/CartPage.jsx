@@ -8,35 +8,12 @@ import SavedForLater from "../components/cart/SavedForLater";
 import SuperDiscount from "../components/cart/SuperDiscount";
 import CartChecout from "../components/cart/CartChecout";
 import CartItemesCard from "../components/cart/CartItemesCard";
+import { useAuth } from "../context/AuthContext";
 
 export default function CartPage() {
+  const { user } = useAuth();
 
-  const cartItems = [
-    {
-      id: 1,
-      title: "T-shirts with multiple colors, for men and lady",
-      price: 78.99,
-      qty: 9,
-      seller: "Artel Market",
-      img: "https://static.vecteezy.com/system/resources/previews/022/100/805/non_2x/blue-t-shirt-product-mockup-front-view-free-png.png"
-    },
-    {
-      id: 2,
-      title: "T-shirts with multiple colors, for men and lady",
-      price: 39.00,
-      qty: 3,
-      seller: "Best factory LLC",
-      img: "https://cdn-icons-png.flaticon.com/512/1040/1040230.png"
-    },
-    {
-      id: 3,
-      title: "T-shirts with multiple colors, for men and lady",
-      price: 170.50,
-      qty: 1,
-      seller: "Artel Market",
-      img: "https://cdn-icons-png.flaticon.com/512/2331/2331970.png"
-    }
-  ];
+  const cartItems = user?.cart || [];
 
 
   return (
@@ -46,7 +23,7 @@ export default function CartPage() {
       <div className="max-w-[1200px] mx-auto">
 
         <h1 className="text-2xl font-semibold mb-6">
-          My cart (3)
+          My cart ({cartItems.length})
         </h1>
 
 

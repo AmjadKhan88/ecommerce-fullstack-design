@@ -2,9 +2,11 @@ import { Heart } from 'lucide-react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import Spiner from '../ui/Spiner';
+import { useAuth } from '../../context/AuthContext';
 
 export default function ShopProductCard({product}) {
   const navigate = useNavigate();
+  const { addToCart } = useAuth();
   return (
      <div className="shadow bg-white rounded-md p-5 flex gap-6 hover:shadow-md transition">
 
@@ -64,6 +66,10 @@ export default function ShopProductCard({product}) {
 
               <button onClick={()=> navigate(`/home/shop/product-details/${product.id}`)} className="text-blue-600 text-sm font-medium">
                 View details
+              </button>
+
+              <button onClick={() => addToCart(product._id || product.id)} className="ml-3 bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                Add to cart
               </button>
 
             </div>

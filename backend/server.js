@@ -7,13 +7,18 @@ import userRouter from './routes/user.routes.js';
 import orderRouter from './routes/order.route.js';
 import categoryRouter from './routes/category.route.js';
 
+
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 
 // Connect to Database
-await connectDB();
+// await connectDB();
 
-app.use(cors());
+// allow only your Vite dev server
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials:true
+}));
 app.use(express.json());
 
 // API Endpoints

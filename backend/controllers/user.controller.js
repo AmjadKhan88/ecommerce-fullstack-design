@@ -2,7 +2,6 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-
 // GENERATE TOKEN
 const generateToken = (id) => {
     return jwt.sign(
@@ -12,69 +11,45 @@ const generateToken = (id) => {
     );
 };
 
-// Validation checker
-const validateRequired = (fields) => {
-    const errors = {};
-    for (const key in fields) {
-        if (!fields[key]) {
-            errors[key] = `${key} is required`;
-        }
-    }
-
-    return errors;
-
-}
-
-
 
 // REGISTER USER
 export const registerUser = async (req, res) => {
 
     try {
-
         const { name, email, password } = req.body;
-
-        if (!user || !email || !password) {
-            return res.status(400).json({ success: false, message: 'All fields are required', errors: { name: name ? '' : 'Name is required', email: email ? '' : 'Email is required', password: password ? '' : 'password is required' } })
-        }
 
         const userExist = await User.findOne({ email });
 
         if (userExist) {
             return res.status(400).json({
+                success:false,
+                errors: {email: "user already exists"},
                 message: "User already exists"
             });
         }
 
+
         const hashedPassword = await bcrypt.hash(password, 10);
-
         const user = await User.create({
-
             name,
             email,
             password: hashedPassword
-
         });
 
         res.status(201).json({
-
             _id: user._id,
             name: user.name,
             email: user.email,
             role: user.role,
             token: generateToken(user._id)
-
         });
 
     }
     catch (error) {
-
         res.status(500).json({
             message: error.message
         });
-
     }
-
 };
 
 
@@ -83,7 +58,6 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
 
     try {
-
         const { email, password } = req.body;
 
         const user = await User.findOne({ email });
@@ -258,4 +232,61 @@ export const deleteUser = async (req, res) => {
 
     }
 
+};
+
+
+// ADD TO CART
+export const addToCart = async (req, res) => {
+    try {
+        const { productId, quantity = 1 } = req.body;
+
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const itemIndex = user.cart.findIndex(c => c.product.toString() === productId);
+
+        if (itemIndex > -1) {
+            // already in cart -> increment quantity
+            user.cart[itemIndex].quantity = user.cart[itemIndex].quantity + Number(quantity);
+        } else {
+            user.cart.push({ product: productId, quantity: Number(quantity) });
+        }
+
+        await user.save();
+
+        const populated = await User.findById(user._id).select("-password").populate("cart.product");
+
+        res.json({ success: true, user: populated });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+// REMOVE FROM CART
+export const removeFromCart = async (req, res) => {
+    try {
+        const { productId } = req.params;
+
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        user.cart = user.cart.filter(c => c.product.toString() !== productId);
+
+        await user.save();
+
+        const populated = await User.findById(user._id).select("-password").populate("cart.product");
+
+        res.json({ success: true, user: populated });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };

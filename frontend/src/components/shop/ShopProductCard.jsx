@@ -3,10 +3,11 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import Spiner from '../ui/Spiner';
 import { useAuth } from '../../context/AuthContext';
+import { toast } from 'react-toastify';
 
 export default function ShopProductCard({product}) {
   const navigate = useNavigate();
-  const { addToCart } = useAuth();
+  const { addToCart, user } = useAuth();
   return (
      <div className="shadow bg-white rounded-md p-5 flex gap-6 hover:shadow-md transition">
 
@@ -68,7 +69,16 @@ export default function ShopProductCard({product}) {
                 View details
               </button>
 
-              <button onClick={() => addToCart(product._id || product.id)} className="ml-3 bg-blue-600 text-white px-3 py-1 rounded text-sm">
+              <button onClick={() => {
+                if (!user) return navigate('/auth/login');
+                // require server product id
+                const pid = product._id;
+                if (!pid) {
+                  toast.info('Product not available to add to cart. View details instead.');
+                  return navigate(`/home/shop/product-details/${product.id}`);
+                }
+                addToCart(pid);
+              }} className="ml-3 bg-blue-600 text-white px-3 py-1 rounded text-sm">
                 Add to cart
               </button>
 

@@ -11,8 +11,17 @@ import categoryRouter from './routes/category.route.js';
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Connect to Database
-// await connectDB();
+// Connect to Database and start server
+const start = async () => {
+  try {
+    await connectDB();
+  } catch (err) {
+    console.error('Failed to connect to DB:', err.message);
+    process.exit(1);
+  }
+};
+
+start();
 
 // allow only your Vite dev server
 app.use(cors({

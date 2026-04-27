@@ -4,6 +4,8 @@ import Home from './pages/Home'
 import Shop from './pages/Shop'
 import ProductDetailsSection from './pages/ProductDetailsSection'
 import CartPage from './pages/CartPage'
+import Profile from './pages/Profile'
+import ProtectedComponents from './hoc/ProtectedComponents'
 import { ToastContainer } from 'react-toastify'
 import Login from './components/auth/Login'
 
@@ -16,7 +18,8 @@ function App() {
           <Route index element={<Home />} />
           <Route path='shop' element={<Shop />} />
           <Route path='home/shop/product-details/:id' element={<ProductDetailsSection/>} />
-          <Route path='cart' element={<CartPage/>} />
+          <Route path='cart' element={<ProtectedComponents><CartPage/></ProtectedComponents>} />
+          <Route path='profile' element={<ProtectedComponents><Profile/></ProtectedComponents>} />
         </Route>
         <Route path='/auth/:type' element={<Login/>} />
       </Routes>

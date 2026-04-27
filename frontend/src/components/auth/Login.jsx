@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { icons } from "../../assets/assets";
@@ -12,7 +13,7 @@ export default function Login() {
     const [state, setState] = useState(type === "login" ? 'Login' : 'Sign Up');
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const { api, setUser } = useAuth();
+    const { api, setUser, loadUser } = useAuth();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -36,7 +37,9 @@ export default function Login() {
             if (data.success) {
                 setErrors({});
                 localStorage.setItem("token", data.token);
-                setUser(data.user);
+                // refresh user from backend
+                const { data: profile } = await api.get('/api/user/profile');
+                setUser(profile);
                 navigate("/");
             }
             setErrors({});
@@ -48,6 +51,24 @@ export default function Login() {
         }
 
     }
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        if (token) {
+            localStorage.setItem('token', token);
+            // load user and redirect
+            (async () => {
+                try {
+                    const { data } = await api.get('/api/user/profile');
+                    setUser(data);
+                    navigate('/');
+                } catch (err) {
+                    toast.error('Google sign-in failed');
+                }
+            })();
+        }
+    }, []);
 
     return (
 
@@ -238,7 +259,7 @@ export default function Login() {
 
                     <div className="space-y-3">
 
-                        <button disabled={loading} className="w-full flex items-center justify-center gap-2 border border-gray-300 p-3 rounded-lg hover:bg-gray-100 transition">
+                        <button disabled={loading} onClick={() => { window.location.href = '/api/user/auth/google' }} className="w-full flex items-center justify-center gap-2 border border-gray-300 p-3 rounded-lg hover:bg-gray-100 transition">
 
                             <img src={icons.google} className="w-6" /> Continue with Google
 

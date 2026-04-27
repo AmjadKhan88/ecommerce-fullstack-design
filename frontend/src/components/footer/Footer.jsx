@@ -98,10 +98,18 @@ export default function Footer() {
             <h3 className="font-semibold mb-3">For users</h3>
 
             <ul className="space-y-2 text-gray-500 text-sm">
-              <li>Login</li>
-              <li>Register</li>
-              <li>Settings</li>
-              <li>My Orders</li>
+              <li>
+                <a href="/auth/login">Login</a>
+              </li>
+              <li>
+                <a href="/auth/register">Register</a>
+              </li>
+              <li>
+                <a href="/profile">Settings</a>
+              </li>
+              <li>
+                <a href="/orders">My Orders</a>
+              </li>
             </ul>
           </div>
 

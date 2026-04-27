@@ -36,12 +36,17 @@ export const registerUser = async (req, res) => {
             password: hashedPassword
         });
 
+        const token = generateToken(user._id);
         res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            token: generateToken(user._id)
+            success: true,
+            token,
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                image: user.image
+            }
         });
 
     }
@@ -76,14 +81,17 @@ export const loginUser = async (req, res) => {
             });
         }
 
+        const token = generateToken(user._id);
         res.json({
-
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            token: generateToken(user._id)
-
+            success: true,
+            token,
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                image: user.image
+            }
         });
 
     }
@@ -285,6 +293,82 @@ export const removeFromCart = async (req, res) => {
         const populated = await User.findById(user._id).select("-password").populate("cart.product");
 
         res.json({ success: true, user: populated });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+// GOOGLE OAUTH INIT
+export const oauthGoogleInit = async (req, res) => {
+    try {
+        const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth';
+        const params = new URLSearchParams({
+            client_id: process.env.GOOGLE_CLIENT_ID,
+            redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+            response_type: 'code',
+            scope: 'openid profile email',
+            access_type: 'offline',
+            prompt: 'consent'
+        });
+
+        const authUrl = `${rootUrl}?${params.toString()}`;
+
+        res.redirect(authUrl);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+// GOOGLE OAUTH CALLBACK
+export const oauthGoogleCallback = async (req, res) => {
+    try {
+        const code = req.query.code;
+        if (!code) return res.status(400).json({ message: 'No code' });
+
+        // exchange code for tokens
+        const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                code,
+                client_id: process.env.GOOGLE_CLIENT_ID,
+                client_secret: process.env.GOOGLE_CLIENT_SECRET,
+                redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+                grant_type: 'authorization_code'
+            })
+        });
+
+        const tokenData = await tokenRes.json();
+
+        const accessToken = tokenData.access_token;
+
+        // fetch user info
+        const userInfoRes = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+            headers: { Authorization: `Bearer ${accessToken}` }
+        });
+
+        const profile = await userInfoRes.json();
+
+        // profile contains { id, email, name, picture }
+        let user = await User.findOne({ email: profile.email });
+
+        if (!user) {
+            user = await User.create({
+                name: profile.name,
+                email: profile.email,
+                password: Math.random().toString(36).slice(2),
+                image: profile.picture
+            });
+        }
+
+        const token = generateToken(user._id);
+
+        // redirect to frontend with token
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+        return res.redirect(`${frontendUrl}/auth/login?token=${token}`);
 
     } catch (error) {
         res.status(500).json({ message: error.message });

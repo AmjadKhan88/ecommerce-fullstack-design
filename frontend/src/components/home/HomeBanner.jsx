@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { assets } from "../../assets/assets";
 
 export default function HomeBanner() {
@@ -14,6 +15,8 @@ export default function HomeBanner() {
     "Machinery tools",
     "More category",
   ];
+  const { user } = useAuth();
+
   return (
     <div className="bg-gray-100 p-6">
       <div className="bg-white rounded-lg shadow-sm p-4">
@@ -97,13 +100,21 @@ export default function HomeBanner() {
 
               </div>
 
-              <button onClick={()=> navigate("/auth/register")} className="w-full bg-blue-600 text-white py-2 rounded mb-2 text-sm">
-                Join now
-              </button>
+              {!user ? (
+                <>
+                  <button onClick={()=> navigate("/auth/register")} className="w-full bg-blue-600 text-white py-2 rounded mb-2 text-sm">
+                    Join now
+                  </button>
 
-              <button onClick={()=> navigate("/auth/login")} className="w-full bg-gray-200 py-2 rounded text-sm">
-                Log in
-              </button>
+                  <button onClick={()=> navigate("/auth/login")} className="w-full bg-gray-200 py-2 rounded text-sm">
+                    Log in
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button onClick={()=> navigate('/profile')} className="w-full bg-white border border-gray-200 py-2 rounded mb-2 text-sm">Profile</button>
+                </>
+              )}
 
             </div>
 

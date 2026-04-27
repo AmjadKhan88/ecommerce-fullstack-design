@@ -12,27 +12,28 @@ export const AuthProvider = ({ children }) => {
 
     const getUser = async () => {
         try {
-            const { data } = await api.get('/user/profile');
-            // backend returns the user object
+            const { data } = await api.get('/api/user/profile');
             if (data) {
                 setUser(data);
             }
         } catch (error) {
-          toast.error(error?.response?.data?.message || error.message);
+          // ignore 401 until login
         } finally {
             setLoading(false);
         }
     }
 
     useEffect(() => {
-        // getUser();
+        const token = localStorage.getItem('token');
+        if (token) getUser();
+        else setLoading(false);
     }, []);
 
     return (
-        <AuthContext.Provider value={{api, user, setUser, loading,
+        <AuthContext.Provider value={{api, user, setUser, loading, loadUser: getUser,
             addToCart: async (productId, quantity = 1) => {
                 try {
-                    const { data } = await api.post('/user/cart', { productId, quantity });
+                    const { data } = await api.post('/api/user/cart', { productId, quantity });
                     if (data?.success) {
                         setUser(data.user);
                         toast.success('Added to cart');
@@ -43,7 +44,7 @@ export const AuthProvider = ({ children }) => {
             },
             removeFromCart: async (productId) => {
                 try {
-                    const { data } = await api.delete(`/user/cart/${productId}`);
+                    const { data } = await api.delete(`/api/user/cart/${productId}`);
                     if (data?.success) {
                         setUser(data.user);
                         toast.success('Removed from cart');
